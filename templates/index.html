@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1 style="text-align: center ;">House Price Prediction</h1>
+    <form action="{{ url_for('predict')}}" method="post" style="max-width: 600px; margin: auto;">
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <label for="CRIM">CRIM:</label>
+            <input type="text" id="CRIM" name="CRIM" required>
+            
+            <label for="ZN">ZN:</label>
+            <input type="text" id="ZN" name="ZN" required>
+            
+            <label for="INDUS">INDUS:</label>
+            <input type="text" id="INDUS" name="INDUS" required>
+            
+            <label for="CHAS">CHAS:</label>
+            <input type="text" id="CHAS" name="CHAS" required>
+            
+            <label for="NOX">NOX:</label>
+            <input type="text" id="NOX" name="NOX" required>
+            
+            <label for="RM">RM:</label>
+            <input type="text" id="RM" name="RM" required>
+            
+            <label for="AGE">AGE:</label>
+            <input type="text" id="AGE" name="AGE" required>
+            
+            <label for="DIS">DIS:</label>
+            <input type="text" id="DIS" name="DIS" required>
+            
+            <label for="RAD">RAD:</label>
+            <input type="text" id="RAD" name="RAD" required>
+            
+            <label for="TAX">TAX:</label>
+            <input type="text" id="TAX" name="TAX" required>
+            
+            <label for="PTRATIO">PTRATIO:</label>
+            <input type="text" id="PTRATIO" name="PTRATIO" required>
+            
+            <label for="B">B:</label>
+            <input type="text" id="B" name="B" required>
+            
+            <label for="LSTAT">LSTAT:</label>
+            <input type="text" id="LSTAT" name="LSTAT" required>
+            
+            <button type="submit" style="padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Submit</button>
+        </div>
+    </form>
+
+
+    <hr>
+    <h1>{{prediction_text}}</h1>
+</body>
+</html>
