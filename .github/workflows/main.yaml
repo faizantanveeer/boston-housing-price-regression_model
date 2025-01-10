@@ -1,46 +1,25 @@
-# Your workflow name.
 name: Deploy to Heroku
 
-# Run workflow on every push to the main branch.
 on:
   push:
     branches: [main]
 
-# Your workflow jobs.
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      # Check out your repository.
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v2
 
-
-
-      # Install Heroku CLI
-      - name: Install Heroku CLI
+      - name: Set Heroku stack to container
         run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
-          echo "Heroku CLI installed"
+          curl -X PATCH https://api.heroku.com/apps/${{ secrets.HEROKU_APP_NAME }} \
+          -H "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" \
+          -H "Accept: application/vnd.heroku+json; version=3" \
+          -H "Content-Type: application/json" \
+          -d '{"build_stack":"container"}'
 
-      # Login to Heroku
-      - name: Login to Heroku
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: |
-          echo "Logging in to Heroku..."
-          heroku auth:token
-
-        - name: Set Heroku stack to container
-          run: |
-            curl -X PATCH https://api.heroku.com/apps/${{ secrets.HEROKU_APP_NAME }} \
-            -H "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" \
-            -H "Accept: application/vnd.heroku+json; version=3" \
-            -H "Content-Type: application/json" \
-            -d '{"build_stack":"container"}'   
-
-      # Build, Push, and Release a Docker container to Heroku
-      - name: Build, Push and Release a Docker container to Heroku
+      - name: Build and Deploy Docker container
         uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
           email: ${{ secrets.HEROKU_EMAIL }}
@@ -48,5 +27,3 @@ jobs:
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
           dockerfile_directory: ./
           dockerfile_name: Dockerfile
-          docker_options: "--no-cache"
-          process_type: web
