@@ -11,6 +11,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set Heroku stack to container
+        run: |
+          curl -X PATCH https://api.heroku.com/apps/${{ secrets.HEROKU_APP_NAME }} \
+          -H "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" \
+          -H "Accept: application/vnd.heroku+json; version=3" \
+          -H "Content-Type: application/json" \
+          -d '{"build_stack":"container"}'
+
       - name: Build and Deploy Docker container
         uses: gonuit/heroku-docker-deploy@v1.3.3
         with:

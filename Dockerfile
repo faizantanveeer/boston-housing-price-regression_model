@@ -1,6 +1,17 @@
+# Use the official Python image
 FROM python:3.7
-COPY . /app
+
+# Set the working directory
 WORKDIR /app
-RUN pip install -r requirements.txt
+
+# Copy the application files
+COPY . /app
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose the port Heroku dynamically assigns
 EXPOSE $PORT
-CMD gunicorn --worker=4 --bind 0.0.0.0:$PORT app:app
+
+# Run the application with Gunicorn
+CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:$PORT", "app:app"]
